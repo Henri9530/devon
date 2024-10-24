@@ -1,0 +1,59 @@
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+  $school_id = $_POST['school_id'];
+  $fname = $_POST['fname'];
+  $lname = $_POST['lname'];
+  $name =  $fname . " " . $lname;
+  $email = $_POST['email'];
+  $department_id = $_POST['department_id'];
+  $year = $_POST['year'];
+  $section = $_POST['section'];
+  $subject = $_POST['subject'];
+
+  if ($_FILES['hen']['error'] === 4) {
+    echo "<script>alert('Image not exist');</script>";
+  } else {
+    // File data
+    $imgname = $_FILES['hen']['name'];
+    $imgsize = $_FILES['hen']['size'];
+    $imgtmp = $_FILES['hen']['tmp_name'];
+
+    // Validate image extension
+    $imgvalid = ['jpeg', 'jpg', 'png', 'svg'];
+    $imgEx = explode('.', $imgname);
+    $imgEx = strtolower(end($imgEx));
+
+    // Validate extension and size
+    if (!in_array($imgEx, $imgvalid)) {
+      echo "<script>alert('Invalid extension');</script>";
+    } else if ($imgsize > 1000000) {
+      echo "<script>alert('Image is too large');</script>";
+    } else {
+      // Create a unique filename
+      $newimg = uniqid() . '.' . $imgEx;
+      move_uploaded_file($imgtmp, './pic' . $newimg);
+
+      // Prepared statement to insert the data
+      $sql = "INSERT INTO tblstudent (school_id, fname, lname, email, department_id, year, section, subject, image) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+      if ($stmt = $conn->prepare($sql)) {
+        // Bind parameters to the prepared statement
+        $stmt->bind_param('sssssiiss', $school_id, $fname, $lname, $email, $department_id, $year, $section, $subject, $newimg);
+
+        // Execute the prepared statement
+        if ($stmt->execute()) {
+          echo "<script>alert('Teacher Successfully Added');</script>";
+          header('Location: student_view.php');
+          exit();
+        } else {
+          echo "<script>alert('Error: Could not execute query.');</script>";
+        }
+
+        // Close the statement
+        $stmt->close();
+      } else {
+        echo "<script>alert('Error: Could not prepare query.');</script>";
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+.b_container{
+  height: 100vh;
+  width: 100vw;
+}
+.admin_container{
+  height: 80px;
+  font-size: 18px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.admin_dashboard{
+  margin-top: 10px;
+  border-radius: 4px;
+
+  background-color:#FEFAE0;
+}
+.main_container{
+  height: 80vh;
+  background-color: #071952;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.15);
+}
+.container_table{
+  height: 920px; 
+  background-color: #071952;
+}
+.cec-bgck{
+  background-color: #071952;
+}

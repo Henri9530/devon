@@ -1,0 +1,24 @@
+
+section{
+  padding: 60px 0;
+}
+
+.image-height{
+  height: 80px;
+}
+
+.btnSubmit{
+  height: 50px;
+  width: 100%;
+
+  border:none;
+  background-color: #071952;
+  color: white;
+
+  font: 20px 'Outfit';
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.15);
+}
+.comment-box{
+  width: 100%;
+  resize: none;
+}
